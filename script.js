@@ -2,18 +2,19 @@ class Game {
     word;
     wordDivRef;
     imageRef;
+    inputRef;
     charRegEx = /^[a-zA-Z]*$/i;
     maxErrors = 7;
     guessedChars = [];
     wrongChars = [];
 
     constructor(wordDivRef, inputRef, buttonRef, imageRef){
-
         this.fetchWord()
         .then(word => {
             this.word= word;
             this.paintWord();
         });
+        this.inputRef = inputRef;
         inputRef.value = '';
         inputRef.focus();
         this.wordDivRef = wordDivRef;
@@ -61,11 +62,12 @@ class Game {
                 this.guessedChars.push(char);
                 this.paintWord();
             }
-            
         }else if(this.errorCount < this.maxErrors){
             this.wrongChars.push(char);
             this.updateImage();
         }
+        this.inputRef.value = '';
+        this.inputRef.focus();
     }
     
     updateImage(){
