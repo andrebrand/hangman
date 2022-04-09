@@ -31,16 +31,24 @@ class Game {
             this.uniqueChars = [...new Set(this.word.split(''))];
         });
 
-        this.addButtonEventListener(buttonRef, inputRef);
+        this.addEventListener(buttonRef, inputRef);
     }
 
-    addButtonEventListener(buttonRef, inputRef){
+    getInputValue(inputRef) {
+        const char = inputRef.value.trim().charAt(0);
+        if(char.length > 0 && char.match(this.charRegEx)){
+            this.guessChar(char);
+        }
+    }
+
+    addEventListener(buttonRef, inputRef){
         // Add event listener to input and button
         buttonRef.addEventListener('click', () => {
-            const char = inputRef.value.trim().charAt(0);
-            // Check if char was filled and is no special character
-            if(char.length > 0 && char.match(this.charRegEx) === true){
-                this.guessChar(char.toLowerCase());
+            this.getInputValue(inputRef);
+        });
+        inputRef.addEventListener("keydown", (event) => {
+            if (event.key === "Enter") {
+                this.getInputValue(inputRef);
             }
         });
     }
