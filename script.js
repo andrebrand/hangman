@@ -39,7 +39,7 @@ class Game {
         buttonRef.addEventListener('click', () => {
             const char = inputRef.value.trim().charAt(0);
             // Check if char was filled and is no special character
-            if(!!char && char.match(this.charRegEx)){
+            if(char.length > 0 && char.match(this.charRegEx) === true){
                 this.guessChar(char.toLowerCase());
             }
         });
@@ -66,7 +66,7 @@ class Game {
             // Create DIV to represent a char
             const div = document.createElement('div');
             // Add the actual char to the DIVs innerHTML if it was guessed
-            if(this.guessedChars.indexOf(char.toLowerCase()) != -1){
+            if(this.guessedChars.includes(char.toLowerCase())){
                 div.innerHTML = char;
             }
             this.wordDivRef.insertBefore(div, null);
@@ -86,9 +86,9 @@ class Game {
 
     guessChar(char) {
         // Check for char in word
-        if(this.word.toLowerCase().indexOf(char) != -1){
+        if(this.word.toLowerCase().split('').includes(char) === true){
             // Check if char was already guessed
-            if(this.guessedChars.indexOf(char) === -1){
+            if(this.guessedChars.includes(char) === false){
                 this.guessedChars.push(char);
                 this.paintWord();
                 // Compare guessed chars with the unique chars
@@ -115,7 +115,7 @@ class Game {
 
     endGame(isSuccess){
         // Show overlay with either "game over" or "success"
-        if(isSuccess){
+        if(isSuccess === true){
             this.overlayRef.className = 'success';
         }else{
             this.overlayRef.className = 'failed';
